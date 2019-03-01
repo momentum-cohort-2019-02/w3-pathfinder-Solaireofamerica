@@ -38,10 +38,13 @@ class DrawMap:
             for x in range(len(self.the_map.elevations)):
                 rgb_value = self.the_map.get_intensity(x, y)
                 self.map_img.putpixel((x, y), (rgb_value, rgb_value, rgb_value))
-        self.map_img.save('map_img.jpg')
+        self.map_img.save('map_img.jpg', "JPEG")
 
 
 # class Pathfinder:
+# pathfinder class will find the paths. need to find out how to do it lol
+# not sure if I need to draw the paths in pathfinder or DrawMap 
+
 
 # class for map from text file. 
 # function in map class i.e. for intensity

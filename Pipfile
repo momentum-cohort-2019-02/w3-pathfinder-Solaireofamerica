@@ -7,9 +7,7 @@ name = "pypi"
 pillow = "*"
 
 [dev-packages]
-"flake8" = "*"
 yapf = "*"
-pylint = "*"
 prospector = "*"
 
 [requires]
