@@ -32,7 +32,8 @@ class ElevationMap:
 
         self.max_elevation = max(max(row) for row in self.elevations)
         self.min_elevation = min(min(row) for row in self.elevations)
-
+    def ele_print(self, max_elevation, min_elevation):
+        print(min_elevation)
     def get_elevation(self, x, y):
         return self.elevations[y][x]
 
