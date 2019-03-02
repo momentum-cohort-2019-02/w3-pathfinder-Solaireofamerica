@@ -46,6 +46,28 @@ class DrawMap:
 # not sure if I need to draw the paths in pathfinder or DrawMap 
 
 
+cur_x = 0
+cur_y = 0
+# import math
+while cur_x < len(elevations[0]) - 1:
+    possible_ys = []
+    if cur_y - 1 >= 0:
+        possible_ys.append(cur_y - 1)
+    if cur_y + 1 < len(elevations):
+        possible_ys.append(cur_y + 1)
+
+    diffs = [
+        abs(elevations[poss_y][cur_x + 1]elevations[cur_y][cur_x]) 
+        for poss_y in possible_ys
+    ]
+
+    min_diff = min(diffs)
+    min_diff_index = diffs.index(min_diff)
+    next_y = possible_ys[min_diff_index]
+
+    cur_x += 1
+    cur_y = next_y
+
 # class for map from text file. 
 # function in map class i.e. for intensity
 # class that draws the map. 
