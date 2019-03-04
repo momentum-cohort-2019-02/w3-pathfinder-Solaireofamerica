@@ -38,11 +38,12 @@ class DrawMap:
             for x in range(len(self.the_map.elevations)):
                 rgb_value = self.the_map.get_intensity(x, y)
                 self.map_img.putpixel((x, y), (rgb_value, rgb_value, rgb_value))
-        self.map_img.save('map_img.jpg', "JPEG")
+        self.map_img.save('map_img.png', "PNG")
 
     def draw_path(self, path, image, rgb):
         for path_point in path:
             image.putpixel(path_point, rgb)
+        self.map_img.save('map_img1.png', "PNG")
 
 
 # pathfinder class will find the paths. need to find out how to do it lol
@@ -55,14 +56,15 @@ class Pathfinder:
 # import math
 
     def point_finder(self, current_x, current_y):
-        while current_x < len(elevations[0]) - 1:
-            possible_ys = []
+        point_list = []
+        while current_x < len(self.the_map.elevations[0]) - 1:
+            possible_ys = [current_y]
             if current_y - 1 >= 0:
                 possible_ys.append(current_y - 1)
-            if current_y + 1 < len(elevations):
+            if current_y + 1 < len(self.the_map.elevations):
                 possible_ys.append(current_y + 1)
 
-            diffs = [abs(elevations[poss_y][current_x + 1]elevations[current_y][current_x]) for poss_y in possible_ys]
+            diffs = [abs(self.the_map.elevations[poss_y][current_x + 1] - self.the_map.elevations[current_y][current_x]) for poss_y in possible_ys]
 
             min_diff = min(diffs)
             min_diff_index = diffs.index(min_diff)
@@ -70,8 +72,13 @@ class Pathfinder:
 
             current_x += 1
             current_y = next_y
+            point_list.append((current_x, current_y))
+        return point_list
+
     def path_finder(self, y):
-        
+        path_1 = self.point_finder(0, y)
+        return path_1
+
 
 # class for map from text file. 
 # function in map class i.e. for intensity
@@ -86,4 +93,13 @@ class Pathfinder:
 if __name__ == "__main__":
     main_map = ElevationMap('elevation_small.txt')
     drawing_tool = DrawMap(main_map)
+    pfinder = Pathfinder(main_map)
+    pathfinder = pfinder.path_finder(299)
     drawing_tool.do_the_draw()
+    drawing_tool.draw_path(pathfinder, drawing_tool.map_img, (0, 255, 0))
+    path_list = []
+    for y in range(599):
+        path_list.append(pfinder.path_finder(y))
+        
+    for path in path_list:
+        drawing_tool.draw_path(path, drawing_tool.map_img, (240, 0, 0))
