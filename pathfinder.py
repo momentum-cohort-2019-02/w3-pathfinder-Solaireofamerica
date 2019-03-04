@@ -40,33 +40,38 @@ class DrawMap:
                 self.map_img.putpixel((x, y), (rgb_value, rgb_value, rgb_value))
         self.map_img.save('map_img.jpg', "JPEG")
 
+    def draw_path(self, path, image, rgb):
+        for path_point in path:
+            image.putpixel(path_point, rgb)
 
-# class Pathfinder:
+
 # pathfinder class will find the paths. need to find out how to do it lol
 # not sure if I need to draw the paths in pathfinder or DrawMap 
 
+class Pathfinder:
 
-cur_x = 0
-cur_y = 0
+    def __init__(self, the_map):
+        self.the_map = the_map
 # import math
-while cur_x < len(elevations[0]) - 1:
-    possible_ys = []
-    if cur_y - 1 >= 0:
-        possible_ys.append(cur_y - 1)
-    if cur_y + 1 < len(elevations):
-        possible_ys.append(cur_y + 1)
 
-    diffs = [
-        abs(elevations[poss_y][cur_x + 1]elevations[cur_y][cur_x]) 
-        for poss_y in possible_ys
-    ]
+    def point_finder(self, current_x, current_y):
+        while current_x < len(elevations[0]) - 1:
+            possible_ys = []
+            if current_y - 1 >= 0:
+                possible_ys.append(current_y - 1)
+            if current_y + 1 < len(elevations):
+                possible_ys.append(current_y + 1)
 
-    min_diff = min(diffs)
-    min_diff_index = diffs.index(min_diff)
-    next_y = possible_ys[min_diff_index]
+            diffs = [abs(elevations[poss_y][current_x + 1]elevations[current_y][current_x]) for poss_y in possible_ys]
 
-    cur_x += 1
-    cur_y = next_y
+            min_diff = min(diffs)
+            min_diff_index = diffs.index(min_diff)
+            next_y = possible_ys[min_diff_index]
+
+            current_x += 1
+            current_y = next_y
+    def path_finder(self, y):
+        
 
 # class for map from text file. 
 # function in map class i.e. for intensity
