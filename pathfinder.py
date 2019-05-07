@@ -33,13 +33,18 @@ class DrawMap:
         self.the_map = the_map
         self.map_img = Image.new('RGB', (len(self.the_map.elevations), len(self.the_map.elevations[0])), (255,255,255))
 
-    def do_the_draw(self):
+    def draw_the_map(self):
+        # if range(len(self.the_map.elevations[0])) == len(self.the_map.elevations[0]):
+        self.length_of_y_axis = []
         for y in range(len(self.the_map.elevations)):
             for x in range(len(self.the_map.elevations)):
                 rgb_value = self.the_map.get_intensity(x, y)
                 self.map_img.putpixel((x, y), (rgb_value, rgb_value, rgb_value))
+                self.length_of_y_axis.append(1)
         self.map_img.save('map_img.png', "PNG")
-
+        return self.length_of_y_axis
+        # else:
+        #     return
     def draw_path(self, path, image, rgb):
         for path_point in path:
             image.putpixel(path_point, rgb)
@@ -91,14 +96,18 @@ class Pathfinder:
 
 
 if __name__ == "__main__":
-    main_map = ElevationMap('elevation_small.txt')
+    main_map = ElevationMap('elevation_large.txt')
     drawing_tool = DrawMap(main_map)
     pfinder = Pathfinder(main_map)
-    pathfinder = pfinder.path_finder(299)
-    drawing_tool.do_the_draw()
-    drawing_tool.draw_path(pathfinder, drawing_tool.map_img, (0, 255, 0))
+    # pathfinder = pfinder.path_finder(299)
+    drawing_tool.draw_the_map()
+    # drawing_tool.draw_path(pathfinder, drawing_tool.map_img, (0, 255, 0))
+    # print(len(main_map.elevations[0]))
+    # print(drawing_tool.length_of_y_axis)
+    # length_of_possible_paths = range(len(drawing_tool.length_of_y_axis))
+    # print(length_of_possible_paths)
     path_list = []
-    for y in range(599):
+    for y in range(len(main_map.elevations[0])):
         path_list.append(pfinder.path_finder(y))
         
     for path in path_list:
