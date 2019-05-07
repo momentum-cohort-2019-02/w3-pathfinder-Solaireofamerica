@@ -1,11 +1,4 @@
-from PIL import Image, ImageDraw, ImageColor
-# take the list of lists and make a dictionary where the key is and int and the key the value is a tuple containing
-# the x,y point
-# the large list are the rows and the smaller list items are the columns
-
-# need to open the image and format the text inside. .split will return all of the numbers, individually as a list. 
-# img_file = open("elevation_small.txt")
-# lowest point is 3139
+from PIL import Image, ImageColor
 
 
 class ElevationMap:
@@ -34,7 +27,6 @@ class DrawMap:
         self.map_img = Image.new('RGB', (len(self.the_map.elevations), len(self.the_map.elevations[0])), (255,255,255))
 
     def draw_the_map(self):
-        # if range(len(self.the_map.elevations[0])) == len(self.the_map.elevations[0]):
         self.length_of_y_axis = []
         for y in range(len(self.the_map.elevations)):
             for x in range(len(self.the_map.elevations)):
@@ -43,22 +35,18 @@ class DrawMap:
                 self.length_of_y_axis.append(1)
         self.map_img.save('map_img.png', "PNG")
         return self.length_of_y_axis
-        # else:
-        #     return
+
     def draw_path(self, path, image, rgb):
         for path_point in path:
             image.putpixel(path_point, rgb)
         self.map_img.save('map_img1.png', "PNG")
 
 
-# pathfinder class will find the paths. need to find out how to do it lol
-# not sure if I need to draw the paths in pathfinder or DrawMap 
 
 class Pathfinder:
 
     def __init__(self, the_map):
         self.the_map = the_map
-# import math
 
     def point_finder(self, current_x, current_y):
         point_list = []
@@ -83,29 +71,13 @@ class Pathfinder:
     def path_finder(self, y):
         path_1 = self.point_finder(0, y)
         return path_1
-
-
-# class for map from text file. 
-# function in map class i.e. for intensity
-# class that draws the map. 
-# class for pathfinding. list of position 
-# total elevation change as a tuple or method to find the lowest change in elevation
-
-# Then we can format that list into a tuple with nested dictionaries where the number from the file is the key and
-# the coordinating points on the graph are the value. we probably also need to separate the file line by line. 
-
+    
 
 if __name__ == "__main__":
     main_map = ElevationMap('elevation_large.txt')
     drawing_tool = DrawMap(main_map)
     pfinder = Pathfinder(main_map)
-    # pathfinder = pfinder.path_finder(299)
     drawing_tool.draw_the_map()
-    # drawing_tool.draw_path(pathfinder, drawing_tool.map_img, (0, 255, 0))
-    # print(len(main_map.elevations[0]))
-    # print(drawing_tool.length_of_y_axis)
-    # length_of_possible_paths = range(len(drawing_tool.length_of_y_axis))
-    # print(length_of_possible_paths)
     path_list = []
     for y in range(len(main_map.elevations[0])):
         path_list.append(pfinder.path_finder(y))
